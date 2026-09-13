@@ -39,7 +39,7 @@
 </ul>
 <p>This data is sent to a Cloudflare Worker we control. Like any web server, Cloudflare&#x27;s infrastructure sees the IP address of the connection while it is being made. We do not store IP addresses and do not link them to gameplay data.</p>
 <h3>1b. The feedback form</h3>
-<p>The game has a button that opens a feedback form in your web browser. Anything you type there is submitted to that form, which is hosted by Google, and Google&#x27;s privacy policy applies to it. Nothing in the game is sent to the form automatically. We ask you not to put personal information in the form beyond what you are comfortable sharing.</p>
+<p>The game has a button that opens a feedback form in your web browser, at kalyxgames.github.io (a page hosted by GitHub Pages). Anything you type there is sent to the same Cloudflare Worker that receives telemetry and stored in a database we control. Nothing in the game is sent to the form automatically; the only thing the game adds is the build version. We ask you not to put personal information in the form beyond what you are comfortable sharing. GitHub&#x27;s own privacy statement applies to the hosting of the page itself.</p>
 <h2>2. What the game does not collect</h2>
 <ul>
 <li>Your name, email address, or any contact details</li>
@@ -62,8 +62,8 @@
 <p>We do not sell this data, share it with advertisers, or use it for anything other than making the game better.</p>
 <h2>4. Where it goes and who handles it</h2>
 <ul>
-<li><strong>Cloudflare, Inc.</strong> operates the Worker that receives telemetry. Cloudflare acts as our data processor.</li>
-<li><strong>Google LLC</strong> hosts the feedback form.</li>
+<li><strong>Cloudflare, Inc.</strong> operates the Worker that receives telemetry and feedback-form submissions, and the database they are stored in. Cloudflare acts as our data processor.</li>
+<li><strong>GitHub, Inc.</strong> hosts the feedback page and this policy (GitHub Pages).</li>
 </ul>
 <p>None of these companies are given access to the data for their own purposes. Data may be processed in the United States.</p>
 <h2>5. How long we keep it</h2>

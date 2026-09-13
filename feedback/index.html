@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Feedback - Break of Dawn</title>
+<meta name="robots" content="noindex">
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; background: #0d1418; color: #c9c2d6; font: 17px/1.6 Georgia, "Times New Roman", serif; }
+  main { max-width: 640px; margin: 0 auto; padding: 48px 24px 96px; }
+  .brand { color: #8ef0e0; letter-spacing: 0.12em; text-transform: uppercase; font-size: 0.8rem; margin-bottom: 6px; }
+  h1 { color: #ffd66e; font-size: 2rem; margin: 0 0 8px; }
+  .sub { color: #9a93a8; margin: 0 0 28px; }
+  label { display: block; color: #f2e8d5; margin: 22px 0 6px; }
+  .hint { color: #9a93a8; font-size: 0.9em; }
+  select, textarea, input[type=text] {
+    width: 100%; box-sizing: border-box; background: #161e22; color: #e8e0f0;
+    border: 1px solid #2a3a3a; border-radius: 4px; padding: 10px 12px; font: inherit;
+  }
+  textarea { min-height: 96px; resize: vertical; }
+  select:focus, textarea:focus, input:focus { outline: none; border-color: #2fbf9c; }
+  .scale { display: flex; gap: 8px; }
+  .scale label { flex: 1; margin: 0; text-align: center; background: #161e22; border: 1px solid #2a3a3a;
+    border-radius: 4px; padding: 10px 0; cursor: pointer; color: #c9c2d6; }
+  .scale input { display: none; }
+  .scale input:checked + span { color: #0d1418; }
+  .scale label:has(input:checked) { background: #2fbf9c; border-color: #2fbf9c; }
+  button { margin-top: 28px; background: #2fbf9c; color: #041d19; border: 0; border-radius: 4px;
+    padding: 14px 28px; font: inherit; font-weight: bold; cursor: pointer; }
+  button:hover { background: #8ef0e0; }
+  button[disabled] { opacity: 0.6; cursor: default; }
+  #done, #failed { display: none; }
+  a { color: #8ef0e0; }
+  footer { margin-top: 48px; color: #6f6980; font-size: 0.85rem; }
+</style>
+</head>
+<body><main>
+<div class="brand">Kalyx Games</div>
+<h1>Break of Dawn - Feedback</h1>
+<p class="sub">Thanks for playing. This goes straight to the developer and shapes the next build.</p>
+
+<form id="f">
+  <input type="hidden" name="version" id="version" value="">
+  <label for="progress">How far did you get?</label>
+  <select name="progress" id="progress">
+    <option value="">- select -</option>
+    <option>Act 1</option>
+    <option>Act 2</option>
+    <option>Finished the demo</option>
+    <option>Act 3</option>
+    <option>Beat the game</option>
+  </select>
+
+  <label>How was the difficulty? <span class="hint">(1 = too easy, 5 = too hard)</span></label>
+  <div class="scale">
+    <label><input type="radio" name="difficulty" value="1"><span>1</span></label>
+    <label><input type="radio" name="difficulty" value="2"><span>2</span></label>
+    <label><input type="radio" name="difficulty" value="3"><span>3</span></label>
+    <label><input type="radio" name="difficulty" value="4"><span>4</span></label>
+    <label><input type="radio" name="difficulty" value="5"><span>5</span></label>
+  </div>
+
+  <label for="fun">What was the most fun?</label>
+  <textarea name="fun" id="fun" placeholder="A tower, a combo, a moment..."></textarea>
+
+  <label for="frustrating">What was confusing or frustrating?</label>
+  <textarea name="frustrating" id="frustrating" placeholder="Anything unclear, annoying, or unfair..."></textarea>
+
+  <label for="bugs">Did anything break or feel buggy?</label>
+  <textarea name="bugs" id="bugs" placeholder="What happened, and when..."></textarea>
+
+  <label for="other">Anything else you'd change or add? <span class="hint">(optional)</span></label>
+  <textarea name="other" id="other"></textarea>
+
+  <label for="contact">Name / contact <span class="hint">(optional, if you want a reply)</span></label>
+  <input type="text" name="contact" id="contact" placeholder="Discord, email, or leave blank">
+
+  <button type="submit" id="send">Send feedback</button>
+</form>
+
+<section id="done">
+  <h1>Thank you.</h1>
+  <p class="sub">Your feedback landed. It genuinely helps.</p>
+  <p><a href="./">Send another</a></p>
+</section>
+
+<section id="failed">
+  <h1>That did not go through.</h1>
+  <p class="sub">Something went wrong on our end. Please try again in a moment, or email <a href="mailto:kalyxgamestudio@gmail.com">kalyxgamestudio@gmail.com</a>.</p>
+</section>
+
+<footer>Anything you type here is sent to a server we run and kept until we have acted on it. See the <a href="../privacy/">privacy policy</a>.</footer>
+</main>
+<script>
+  // The form posts to the same Cloudflare Worker the game has always used; only the page
+  // a player sees lives here. The game appends ?v=<build> so every entry is build-tagged.
+  var ENDPOINT = "https://bod-feedback.producepixels.workers.dev/submit";
+  var form = document.getElementById("f");
+  var v = new URLSearchParams(location.search).get("v");
+  if (v) document.getElementById("version").value = v.slice(0, 40);
+  form.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    var btn = document.getElementById("send");
+    btn.disabled = true;
+    // mode "no-cors": a multipart POST is a CORS "simple request", so it is delivered
+    // whatever the Worker answers, and the promise resolves once it has been sent and
+    // rejects only on a real network failure. The response is opaque (we cannot read a
+    // status), which is the trade for never sending the same feedback twice. Once the
+    // Worker's /submit sends CORS headers this can become a plain fetch that reads r.ok.
+    fetch(ENDPOINT, { method: "POST", mode: "no-cors", body: new FormData(form) })
+      .then(function () {
+        form.style.display = "none";
+        document.getElementById("done").style.display = "block";
+      })
+      .catch(function () {
+        btn.disabled = false;
+        document.getElementById("failed").style.display = "block";
+      });
+  });
+</script>
+</body>
+</html>
