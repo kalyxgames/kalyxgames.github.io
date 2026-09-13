@@ -40,6 +40,8 @@
 <p>This data is sent to a Cloudflare Worker we control. Like any web server, Cloudflare&#x27;s infrastructure sees the IP address of the connection while it is being made. We do not store IP addresses and do not link them to gameplay data.</p>
 <h3>1b. The feedback form</h3>
 <p>The game has a button that opens a feedback form in your web browser, at kalyxgames.github.io (a page hosted by GitHub Pages). Anything you type there is sent to the same Cloudflare Worker that receives telemetry and stored in a database we control. Nothing in the game is sent to the form automatically; the only thing the game adds is the build version. We ask you not to put personal information in the form beyond what you are comfortable sharing. GitHub&#x27;s own privacy statement applies to the hosting of the page itself.</p>
+<h3>1c. Crash reports</h3>
+<p>If the game closes without shutting down properly, the next time you start it, it asks whether you want to send the previous session&#x27;s log to us. This is <strong>opt-in</strong>: nothing is sent unless you choose <strong>Send the log</strong>. A crash report contains the game&#x27;s own log messages from that session, the game version, the name and version of your operating system, the name of your graphics card, and the same random client ID as the telemetry. Before sending, the game replaces its data-folder path and your user-folder path with placeholders, so your account name is not included.</p>
 <h2>2. What the game does not collect</h2>
 <ul>
 <li>Your name, email address, or any contact details</li>
@@ -62,7 +64,7 @@
 <p>We do not sell this data, share it with advertisers, or use it for anything other than making the game better.</p>
 <h2>4. Where it goes and who handles it</h2>
 <ul>
-<li><strong>Cloudflare, Inc.</strong> operates the Worker that receives telemetry and feedback-form submissions, and the database they are stored in. Cloudflare acts as our data processor.</li>
+<li><strong>Cloudflare, Inc.</strong> operates the Worker that receives telemetry, crash reports and feedback-form submissions, and the database they are stored in. Cloudflare acts as our data processor.</li>
 <li><strong>GitHub, Inc.</strong> hosts the feedback page and this policy (GitHub Pages).</li>
 </ul>
 <p>None of these companies are given access to the data for their own purposes. Data may be processed in the United States.</p>
@@ -70,9 +72,11 @@
 <ul>
 <li><strong>Gameplay telemetry</strong> is kept for as long as it is useful for balancing the current version of the game, and is deleted or aggregated no later than <strong>24 months</strong> after collection.</li>
 <li><strong>Feedback form responses</strong> are kept until we have acted on them.</li>
+<li><strong>Crash reports</strong> are kept until the crash they describe is fixed, and no longer than <strong>24 months</strong>.</li>
 </ul>
 <h2>6. Your choices</h2>
 <ul>
+<li><strong>Crash reports are never automatic.</strong> Choose <strong>Don&#x27;t send</strong> on the prompt and nothing leaves your computer.</li>
 <li><strong>Turn off telemetry.</strong> Open <strong>Settings</strong> in the game and switch off <strong>&quot;Send anonymous gameplay data&quot;</strong>. No further snapshots are sent. Snapshots already sent cannot be recalled, because we have no way to tell which ones were yours.</li>
 <li><strong>Reset your client ID.</strong> Delete the game&#x27;s settings file and a new random ID is generated on the next launch. The old ID cannot be linked back to you by us or anyone else. On Windows the file is at <code>%APPDATA%\Godotpp_userdata\Break of Dawn\settings.cfg</code>.</li>
 <li><strong>Delete local data.</strong> Your run history, seed history and settings are stored in the same folder. Deleting the folder removes everything the game has saved.</li>

@@ -5,14 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Feedback - Break of Dawn</title>
 <meta name="robots" content="noindex">
+<!-- Jersey 15 is one of the game's own selectable faces (SIL Open Font License), so the page
+     reads like the game does. Dead Revolver, the default face, is not embedded: its licence
+     is a desktop one. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jersey+15&display=swap" rel="stylesheet">
 <style>
   :root { color-scheme: dark; }
   body { margin: 0; background: #0d1418; color: #c9c2d6; font: 17px/1.6 Georgia, "Times New Roman", serif; }
   main { max-width: 640px; margin: 0 auto; padding: 48px 24px 96px; }
-  .brand { color: #8ef0e0; letter-spacing: 0.12em; text-transform: uppercase; font-size: 0.8rem; margin-bottom: 6px; }
-  h1 { color: #ffd66e; font-size: 2rem; margin: 0 0 8px; }
+  .pixel { font-family: "Jersey 15", "Trebuchet MS", sans-serif; letter-spacing: 0.02em; }
+  .brand { color: #8ef0e0; letter-spacing: 0.18em; text-transform: uppercase; font-size: 1.1rem; margin-bottom: 6px; font-family: "Jersey 15", sans-serif; }
+  h1 { color: #ffd66e; font-size: 2.6rem; margin: 0 0 8px; font-family: "Jersey 15", "Trebuchet MS", sans-serif; font-weight: normal; letter-spacing: 0.03em; }
   .sub { color: #9a93a8; margin: 0 0 28px; }
-  label { display: block; color: #f2e8d5; margin: 22px 0 6px; }
+  label { display: block; color: #f2e8d5; margin: 22px 0 6px; font-family: "Jersey 15", "Trebuchet MS", sans-serif; font-size: 1.35rem; letter-spacing: 0.03em; }
   .hint { color: #9a93a8; font-size: 0.9em; }
   select, textarea, input[type=text] {
     width: 100%; box-sizing: border-box; background: #161e22; color: #e8e0f0;
@@ -27,7 +34,7 @@
   .scale input:checked + span { color: #0d1418; }
   .scale label:has(input:checked) { background: #2fbf9c; border-color: #2fbf9c; }
   button { margin-top: 28px; background: #2fbf9c; color: #041d19; border: 0; border-radius: 4px;
-    padding: 14px 28px; font: inherit; font-weight: bold; cursor: pointer; }
+    padding: 14px 32px; font: normal 1.5rem "Jersey 15", "Trebuchet MS", sans-serif; letter-spacing: 0.05em; cursor: pointer; }
   button:hover { background: #8ef0e0; }
   button[disabled] { opacity: 0.6; cursor: default; }
   #done, #failed { display: none; }
