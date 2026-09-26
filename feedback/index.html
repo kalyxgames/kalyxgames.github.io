@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Break of Dawn feedback</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jersey+15&display=swap" rel="stylesheet">
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; background: #1e1109; color: #edd9b4; font: 21px/1.35 "Jersey 15", "Trebuchet MS", sans-serif; }
+  main { max-width: 600px; margin: 0 auto; padding: 32px 20px 72px; }
+  .logo { display: block; width: 567px; max-width: 100%; height: auto; margin: 0 auto 20px; image-rendering: pixelated; }
+  h1 { font-weight: normal; font-size: 40px; color: #ffe9c4; margin: 0 0 4px; }
+  p { margin: 0 0 16px; }
+  .muted { color: #9c7f5e; }
+  label, legend { display: block; margin: 22px 0 6px; color: #ffe9c4; }
+  fieldset { border: 0; padding: 0; margin: 22px 0 0; }
+  fieldset legend { margin: 0 0 6px; padding: 0; }
+  small { color: #9c7f5e; font-size: 18px; }
+  select, textarea, input[type=text] {
+    width: 100%; box-sizing: border-box; font: inherit; color: #edd9b4;
+    background: #26170b; border: 2px solid #4a2d1c; border-radius: 0; padding: 8px 10px;
+  }
+  textarea { min-height: 88px; resize: vertical; }
+  select:focus, textarea:focus, input:focus { outline: none; border-color: #f2802c; }
+  ::placeholder { color: #6b4d33; }
+  .scale { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  .scale label { margin: 0; text-align: center; padding: 6px 0; cursor: pointer; background: #26170b; border: 2px solid #4a2d1c; color: #edd9b4; }
+  .scale input { position: absolute; opacity: 0; }
+  .scale label:has(input:checked) { background: #f2802c; border-color: #030000; color: #1e1109; }
+  .scale label:has(input:focus-visible) { border-color: #f2802c; }
+  .ends { display: flex; justify-content: space-between; margin-top: 4px; }
+  button {
+    margin-top: 28px; font: inherit; font-size: 26px; padding: 8px 36px; cursor: pointer;
+    background: #f2802c; color: #1e1109; border: 2px solid #030000; box-shadow: 4px 4px 0 #030000;
+  }
+  button:hover { background: #ff9c3a; }
+  button:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 #030000; }
+  button[disabled] { opacity: 0.6; cursor: default; }
+  a { color: #f6a850; }
+  footer { margin-top: 44px; font-size: 18px; color: #9c7f5e; }
+</style>
+</head>
+<body>
+<main>
+<img class="logo" src="../logo.png" alt="Break of Dawn" width="567" height="293">
+
+<form id="f">
+  <h1>Feedback</h1>
+  <p>Thanks for playing. Tell me what worked, what didn't, and anything that broke. I read every one of these.</p>
+  <input type="hidden" name="version" id="version">
+
+  <label for="progress">How far did you get?</label>
+  <select name="progress" id="progress">
+    <option value="">Pick one</option>
+    <option>Act 1</option>
+    <option>Act 2</option>
+    <option>Finished the demo</option>
+    <option>Acts 3 to 5</option>
+    <option>Acts 6 to 9</option>
+    <option>Act 10</option>
+    <option>Beat the game</option>
+  </select>
+
+  <fieldset>
+    <legend>How hard was it?</legend>
+    <div class="scale">
+      <label><input type="radio" name="difficulty" value="1">1</label>
+      <label><input type="radio" name="difficulty" value="2">2</label>
+      <label><input type="radio" name="difficulty" value="3">3</label>
+      <label><input type="radio" name="difficulty" value="4">4</label>
+      <label><input type="radio" name="difficulty" value="5">5</label>
+    </div>
+    <div class="ends"><small>too easy</small><small>too hard</small></div>
+  </fieldset>
+
+  <label for="fun">What was the most fun?</label>
+  <textarea name="fun" id="fun" placeholder="A tower, a combo, a run you remember"></textarea>
+
+  <label for="frustrating">What confused or annoyed you?</label>
+  <textarea name="frustrating" id="frustrating"></textarea>
+
+  <label for="bugs">Did anything break?</label>
+  <textarea name="bugs" id="bugs" placeholder="What happened, and roughly when"></textarea>
+
+  <label for="other">Anything else? <small>optional</small></label>
+  <textarea name="other" id="other"></textarea>
+
+  <label for="contact">Contact <small>optional, only if you want a reply</small></label>
+  <input type="text" name="contact" id="contact" placeholder="Discord name or email">
+
+  <button type="submit" id="send">Send</button>
+</form>
+
+<section id="done" hidden>
+  <h1>Sent. Thank you.</h1>
+  <p><a href="./">Send another</a></p>
+</section>
+
+<p id="failed" hidden>That didn't go through. Try again in a minute, or email <a href="mailto:kalyxgamestudio@gmail.com">kalyxgamestudio@gmail.com</a>.</p>
+
+<footer>What you write here goes to a server we run and is kept until we've acted on it. <a href="../privacy/">Privacy policy</a></footer>
+</main>
+<script>
+const endpoint = "https://bod-feedback.producepixels.workers.dev/submit";
+const form = document.getElementById("f");
+const v = new URLSearchParams(location.search).get("v");
+if (v) form.version.value = v.slice(0, 40);
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const send = document.getElementById("send");
+  send.disabled = true;
+  try {
+    const r = await fetch(endpoint, { method: "POST", body: new FormData(form) });
+    if (!r.ok) throw new Error(r.status);
+    form.hidden = true;
+    document.getElementById("failed").hidden = true;
+    document.getElementById("done").hidden = false;
+  } catch {
+    send.disabled = false;
+    document.getElementById("failed").hidden = false;
+  }
+});
+</script>
+</body>
+</html>
