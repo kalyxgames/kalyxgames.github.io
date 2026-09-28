@@ -1,3 +1,3 @@
 # Kalyx Games
 
-The Break of Dawn privacy policy and feedback form.
+The Kalyx Games website: the studio homepage, the Break of Dawn privacy policy and the feedback form.
